@@ -1,0 +1,7 @@
+* This is a 5-volt chip #TODO: Will it work with 3.3v signals
+Useful info found at: http://wayoda.github.io/LedControl/pages/hardware
+
+7-segment displays absolute maximum forward voltage is 20mA, and forward voltage drop is 1.9V
+This leads to an optimal Rset on the MAX7221 of >= 28kOhms. This should work for displays of 4 or more digits, though a higher value would be required for displays of 3 or fewer digits
+
+Note that the MAX7221 should be powered directly from the 5V power supply, and not from the Arduino board itself.

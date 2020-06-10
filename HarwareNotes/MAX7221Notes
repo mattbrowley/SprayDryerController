@@ -1,0 +1,11 @@
+* This is a 5-volt chip #TODO: Will it work with 3.3v signals
+Useful info found at: http://wayoda.github.io/LedControl/pages/hardware
+
+7-segment displays absolute maximum forward voltage is 20mA, and forward voltage drop is 1.9V
+This leads to an optimal Rset on the MAX7219 of >= 28kOhms. This should work for displays of 4 or more digits, though a higher value would be required for displays of 3 or fewer digits
+
+Note that the MAX7219 should be powered directly from the 5V power supply, and not from the Arduino board itself.
+
+The two drivers share CS SCK pins, but the DIn pin for the second display should be connected to the DOut pin of the first, rather than to the MISO pin on the SPI bus
+
+The 7219 is technically not SPI-compliant (7221 is), but apparently the SPI library works well enough with it.
