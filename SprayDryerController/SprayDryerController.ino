@@ -15,6 +15,7 @@ void loop() {
   // This method handles the functions that depend on the current state
   updateState();
   checkAlarms();
+  updateTimer();
 }
 
 void setupPins(){

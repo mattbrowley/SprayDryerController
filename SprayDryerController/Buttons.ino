@@ -15,7 +15,7 @@ void readTimer() {
     if (!timerPressed) { // The Timer button was not previously pressed
       timerPressed = true;
       lastPress = millis();  // Reset the debounce timer
-      // TODO: code for when Timer is pressed
+      timerStart = millis();  // Start measuring elapsed time from the current time
     }
   } else if (timerPressed) { // Timer button released
     timerPressed = false;
@@ -30,6 +30,7 @@ void readAlarmClear() {
       lastPress = millis();  // Reset the debounce timer
       if(alarmActive){
         alarmActive = false;
+        clearLCD();
       }
     }
   } else if (alarmClearPressed) {  // alarmClear button released
@@ -87,7 +88,6 @@ void readManualHeat() {
     if (!manualHeatPressed) { // The manualHeat button was not previously pressed
       manualHeatPressed = true;  //
       lastPress = millis();  // Reset the debounce timer
-      // TODO: code for when manualHeat is pressed
     }
   } else if (manualHeatPressed) {  // manualHeat button released
     manualHeatPressed = false;
@@ -100,7 +100,6 @@ void readManualPump() {
     if (!manualPumpPressed) { // The manualPump button was not previously pressed
       manualPumpPressed = true;  //
       lastPress = millis();  // Reset the debounce timer
-      // TODO: code for when manualPump is pressed
     }
   } else if (manualPumpPressed) {  // manualPump button released
     manualPumpPressed = false;

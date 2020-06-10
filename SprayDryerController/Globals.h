@@ -36,22 +36,22 @@
 #define debounceDelay 100  // Buttons aren't queried in the 0.1 s after a button state change
 #define logInterval 5000  // log data every 5 seconds while a process is running
 
-float inputT;  // Input Temperature
-float inputCJT;  // Input Cold Junction Temperature (breakout board temperature)
+float inputT = 0;  // Input Temperature
+float inputCJT = 0;  // Input Cold Junction Temperature (breakout board temperature)
 float inputSetpoint = 0; // Setpoint for the input temperature
-float outputT;  // Output Temperature
-float outputCJT;  // Output Cold Junction Temperature (breakout board temperature)
+float outputT = 0;  // Output Temperature
+float outputCJT = 0;  // Output Cold Junction Temperature (breakout board temperature)
 float outputSetpoint = 0; // Setpoint for the output temperature
-float coilT;  // Heating Coil Temperature
-float coilCJT;  // Heating Coil Cold Junction Temperature (breakout board temperature)
-int coilDutyCycle = 0;
-int pumpDutyCycle = 0;
+float coilT = 0;  // Heating Coil Temperature
+float coilCJT = 0;  // Heating Coil Cold Junction Temperature (breakout board temperature)
+int coilDutyCycle = 0; // Ranges from 0 (off) to 255 (on)
+int pumpDutyCycle = 0; // Ranges from 0 (off) to 255 (on)
 int elapsedTime = 0;
 
 int state = 0; // Which state the controller is currently in
-unsigned long lastPress;  // Timestamp used for software debouncing of buttons
-unsigned long timerStart;  // Timestamp used for counting seconds since the timer starts
-unsigned long lastLog;  // Timestamp used to log data at 5 second intervals
+unsigned long lastPress = 0;  // Timestamp used for software debouncing of buttons
+unsigned long timerStart = 0;  // Timestamp used for counting seconds since the timer starts
+unsigned long lastLog = 0;  // Timestamp used to log data at 5 second intervals
 bool timeStarted = false;
 bool timerPressed = false;
 bool alarmClearPressed = false;
@@ -60,6 +60,6 @@ bool stopPressed = false;
 bool idlePressed = false;
 bool manualHeatPressed = false;
 bool manualPumpPressed = false;
-int potValue; // Temporary variable to store raw potentiometer analogRead values
+int potValue = 0; // Temporary variable to store raw potentiometer analogRead values
 bool alarmActive = false;
 #endif

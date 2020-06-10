@@ -50,19 +50,28 @@ void endLog() {
 void writeLog() {
   if (logFile) {
     logFile.print("" + currentTime.hour() + '.' + currentTime.minute() + '.' + currentTime.second());
-//    logFile.print("" + "\t" + inputT);
+    logFile.print("\t");
+    logFile.print(inputT);
     if (manualHeatPressed) {
       logFile.print("\tManual");
     } else {
-//      logFile.print("" + "\t" + inputSetpoint);
+      logFile.print("\t");
+      logFile.print(inputSetpoint);
     }
-//    logFile.print("\t" + coilDutyCycle + "\t" + outputT);
+    logFile.print("\t");
+    logFile.print(coilDutyCycle);
+    logFile.print("\t");
+    logFile.print(outputT);
     if (manualPumpPressed){
       logFile.print("\tManual");
     }else{
-//      logFile.print("" + "\t" + outputSetpoint);
+      logFile.print("\t");
+      logFile.print(outputSetpoint);
     }
-//    logFile.println("\t" + pumpDutyCycle + "\t" + elapsedTime);
+    logFile.print("\t");
+    logFile.print(pumpDutyCycle);
+    logFile.print("\t");
+    logFile.println(elapsedTime);
     lastLog = millis();
   } else {
     // handle error of log file not opening properly

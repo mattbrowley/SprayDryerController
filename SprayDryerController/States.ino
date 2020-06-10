@@ -26,6 +26,7 @@ void updateState() {
       }
       writeLogo();
       writeTemps();
+      writeTimer();
       logData();
       break;
     case 4:  // Running state
@@ -43,12 +44,19 @@ void updateState() {
       }
       writeLogo();
       writeTemps();
+      writeTimer();
       logData();
       break;
     case 5:  // Cooldown state
+      writeLogo();
+      writeTemps();
+      writeTimer();
       logData();
-      if (inputT - outputT < 10) {
+      if (inputT - outputT < 10) { // End the process
         endLog();
+        if(!alarmActive){
+          clearLCD();
+        }
         //TODO: Some friendly finished alarm
         state = 0;
       }
@@ -63,4 +71,8 @@ void checkAlarms(){
   if(alarmActive){
   //TODO: Code to check for alarms and sound the buzzer
   }
+}
+
+void updateTimer(){
+  elapsedTime = (millis() - timerStart)/1000;
 }
