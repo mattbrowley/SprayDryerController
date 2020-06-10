@@ -4,54 +4,57 @@ SparkFunMAX31855k inputTProbe(ITCS);
 SparkFunMAX31855k outputTProbe(OTCS);
 SparkFunMAX31855k coilTProbe(CTCS);
 
-void readTemps(){
+void readTemps() {
   readInputT();
   readOutputT();
   readCoilT();
 }
 
-void readInputT(){
+void readInputT() {
   inputT = inputTProbe.readTempC();
-  if (isnan(inputT)){ // input temperature probe returned an error
-    // Handle error
+  if (isnan(inputT)) { // input temperature probe returned an error
+    alarmActive = true;
+    writeAlarm(" Input Thermocouple");
   }
 }
 
-void readInputCJT(){
+void readInputCJT() {
   inputCJT = inputTProbe.readCJT();
-  if (isnan(inputCJT)){ // input temperature probe returned an error
+  if (isnan(inputCJT)) { // input temperature probe returned an error
     // Handle error
   }
 }
 
-void readOutputT(){
+void readOutputT() {
   outputT = outputTProbe.readTempC();
-  if (isnan(outputT)){ // output temperature probe returned an error
-    // Handle error
+  if (isnan(outputT)) { // output temperature probe returned an error
+    alarmActive = true;
+    writeAlarm("Output Thermocouple");
   }
 }
 
-void readOutputCJT(){
+void readOutputCJT() {
   outputCJT = outputTProbe.readCJT();
-  if (isnan(outputCJT)){ // output temperature probe returned an error
+  if (isnan(outputCJT)) { // output temperature probe returned an error
     // Handle error
   }
 }
 
-void readCoilT(){
+void readCoilT() {
   coilT = coilTProbe.readTempC();
-  if (isnan(coilT)){ // coil temperature probe returned an error
-    // Handle error
+  if (isnan(coilT)) { // coil temperature probe returned an error
+    alarmActive = true;
+    writeAlarm("Coil Thermocouple");
   }
-  if (coilT >= maxCoilT){
+  if (coilT >= maxCoilT) {
     alarmActive = true;
     writeAlarm("   Max Coil Temp    ");
   }
 }
 
-void readCoilCJT(){
+void readCoilCJT() {
   coilCJT = coilTProbe.readCJT();
-  if (isnan(coilCJT)){ // coil temperature probe returned an error
+  if (isnan(coilCJT)) { // coil temperature probe returned an error
     // Handle error
   }
 }

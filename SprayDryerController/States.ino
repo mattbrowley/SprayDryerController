@@ -19,7 +19,7 @@ void updateState() {
       if (manualHeatPressed) {
         manualSetCoil();
       } else {
-        PWMSetCoil();
+        PIDSetCoil();
       }
       if (inputT < inputSetpoint + 1 & inputT > inputSetpoint - 1) {
         state = 4;
@@ -33,13 +33,13 @@ void updateState() {
       if (manualHeatPressed) {
         manualSetCoil();
       } else {
-        PWMSetCoil();
+        PIDSetCoil();
       }
       if (!idlePressed) {  // Only run the pump if idle is up
         if (manualPumpPressed) {
           manualSetPump();
         } else {
-          PWMSetPump();
+          PIDSetPump();
         }
       }
       writeLogo();
@@ -48,31 +48,35 @@ void updateState() {
       logData();
       break;
     case 5:  // Cooldown state
+      if (!idlePressed) {  // Only run the pump if idle is up
+        if (manualPumpPressed) {
+          manualSetPump();
+        } else {
+          PIDSetPump();
+        }
+      }
       writeLogo();
       writeTemps();
       writeTimer();
       logData();
       if (inputT - outputT < 10) { // End the process
         endLog();
-        if(!alarmActive){
+        if (!alarmActive) {
           clearLCD();
         }
         //TODO: Some friendly finished alarm
         state = 0;
       }
       break;
-    case 6:  // Idle state
-      logData();
-      break;
   }
 }
 
-void checkAlarms(){
-  if(alarmActive){
-  //TODO: Code to check for alarms and sound the buzzer
+void checkAlarms() {
+  if (alarmActive) {
+    //TODO: Code to check for alarms and sound the buzzer
   }
 }
 
-void updateTimer(){
-  elapsedTime = (millis() - timerStart)/1000;
+void updateTimer() {
+  elapsedTime = (millis() - timerStart) / 1000;
 }

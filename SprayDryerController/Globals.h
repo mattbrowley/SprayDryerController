@@ -1,6 +1,7 @@
 #ifndef Globals_h
 #define Globals_h
 
+#include <AutoPID.h>
 #include "Arduino.h"
 
 //TODO: Choose sane pin numbers
@@ -23,6 +24,7 @@
 #define coilRelay 2 // PWM output pin for the coil relay
 #define timerPin 7  // Button for starting the timer
 #define alarmClearPin 2  // Button to clear alarms
+#define alarmPin 2 // Pin to activate the alarm buzzer
 #define startPin 4  // Button to begin a process
 #define stopPin 3  // Button to end a process
 #define idlePin 6  // Toggle to enter idle mode
@@ -36,17 +38,17 @@
 #define debounceDelay 100  // Buttons aren't queried in the 0.1 s after a button state change
 #define logInterval 5000  // log data every 5 seconds while a process is running
 
-float inputT = 0;  // Input Temperature
-float inputCJT = 0;  // Input Cold Junction Temperature (breakout board temperature)
-float inputSetpoint = 0; // Setpoint for the input temperature
-float outputT = 0;  // Output Temperature
-float outputCJT = 0;  // Output Cold Junction Temperature (breakout board temperature)
-float outputSetpoint = 0; // Setpoint for the output temperature
-float coilT = 0;  // Heating Coil Temperature
-float coilCJT = 0;  // Heating Coil Cold Junction Temperature (breakout board temperature)
-int coilDutyCycle = 0; // Ranges from 0 (off) to 255 (on)
-int pumpDutyCycle = 0; // Ranges from 0 (off) to 255 (on)
-int elapsedTime = 0;
+double inputT = 0;  // Input Temperature
+double inputCJT = 0;  // Input Cold Junction Temperature (breakout board temperature)
+double inputSetpoint = 0; // Setpoint for the input temperature
+double outputT = 0;  // Output Temperature
+double outputCJT = 0;  // Output Cold Junction Temperature (breakout board temperature)
+double outputSetpoint = 0; // Setpoint for the output temperature
+double coilT = 0;  // Heating Coil Temperature
+double coilCJT = 0;  // Heating Coil Cold Junction Temperature (breakout board temperature)
+double coilDutyCycle = 0; // Ranges from 0 (off) to 255 (on)
+double pumpDutyCycle = 0; // Ranges from 0 (off) to 255 (on)
+unsigned int elapsedTime = 0;
 
 int state = 0; // Which state the controller is currently in
 unsigned long lastPress = 0;  // Timestamp used for software debouncing of buttons
@@ -62,4 +64,6 @@ bool manualHeatPressed = false;
 bool manualPumpPressed = false;
 int potValue = 0; // Temporary variable to store raw potentiometer analogRead values
 bool alarmActive = false;
+bool pumpAlarm = false;
+bool coilAlarm = false;
 #endif

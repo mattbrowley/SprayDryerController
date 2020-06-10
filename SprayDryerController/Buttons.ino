@@ -30,6 +30,8 @@ void readAlarmClear() {
       lastPress = millis();  // Reset the debounce timer
       if(alarmActive){
         alarmActive = false;
+        pumpAlarm = false;
+        coilAlarm = false;
         clearLCD();
       }
     }
@@ -44,8 +46,11 @@ void readStart() {
     if (!startPressed) { // The start button was not previously pressed
       startPressed = true; 
       lastPress = millis();  // Reset the debounce timer
-      if (state < 3){
+      if (state < 2){
         state = state + 1;
+      } else if (state==2){
+        resetCoilPID();
+        resetPumpPID();
       }
     }
   } else if (startPressed) {  // start button released
