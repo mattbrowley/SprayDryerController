@@ -27,17 +27,31 @@ void writeTemps() {
   lcd.print("ISet:");
   lcd.print(inputSetpoint);
   lcd.print("   ");
-  lcd.setCursor(10,2);
+  lcd.setCursor(10, 2);
   lcd.print("CDuty:");
-  lcd.print(coilDutyCycle);
-  lcd.println("   ");
+  CD = coilDutyCycle / 10;
+  if (CD < 100) {
+    lcd.print(" ");
+  }
+  if (CD < 10) {
+    lcd.print(" ");
+  }
+  lcd.print(CD);
+  lcd.println("% ");
   lcd.print("OSet:");
   lcd.print(outputSetpoint);
   lcd.print("   ");
-  lcd.setCursor(10,3);
+  lcd.setCursor(10, 3);
   lcd.print("PDuty:");
+  PD = pumpDutyCycle / 2.55;
+  if (PD < 100) {
+    lcd.print(" ");
+  }
+  if (PD < 10) {
+    lcd.print(" ");
+  }
   lcd.print(pumpDutyCycle);
-  lcd.print("   ");
+  lcd.print("% ");
 }
 
 void writeInputTSetpoint() {
@@ -75,23 +89,25 @@ void writeAlarm(String message) {
   lcd.println("                ");
 }
 
-void writeTimer(){
-  if(elapsedTime < 10){
-    lcd.setCursor(0,19);
-  } else if (elapsedTime < 100){
-    lcd.setCursor(0,18);
-  }else if (elapsedTime < 1000){
-    lcd.setCursor(0,17);
-  }else if (elapsedTime < 10000){
-    lcd.setCursor(0,16);
-  }else if (elapsedTime < 100000){
-    lcd.setCursor(0,15);
-  }else{
-    lcd.setCursor(0,14);
+void writeTimer() {
+  if (timerStart != 0) { // Do not display the timer if it hasn't been manually started
+    if (elapsedTime < 10) {
+      lcd.setCursor(0, 19);
+    } else if (elapsedTime < 100) {
+      lcd.setCursor(0, 18);
+    } else if (elapsedTime < 1000) {
+      lcd.setCursor(0, 17);
+    } else if (elapsedTime < 10000) {
+      lcd.setCursor(0, 16);
+    } else if (elapsedTime < 100000) {
+      lcd.setCursor(0, 15);
+    } else {
+      lcd.setCursor(0, 14);
+    }
+    lcd.print(elapsedTime);
   }
-  lcd.print(elapsedTime);
 }
 
-void clearLCD(){
+void clearLCD() {
   lcd.clear();
 }

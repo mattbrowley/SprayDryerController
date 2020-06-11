@@ -46,8 +46,10 @@ double outputCJT = 0;  // Output Cold Junction Temperature (breakout board tempe
 double outputSetpoint = 0; // Setpoint for the output temperature
 double coilT = 0;  // Heating Coil Temperature
 double coilCJT = 0;  // Heating Coil Cold Junction Temperature (breakout board temperature)
-double coilDutyCycle = 0; // Ranges from 0 (off) to 255 (on)
+double coilDutyCycle = 0; // Ranges from 0 (off) to 1000 (on)
 double pumpDutyCycle = 0; // Ranges from 0 (off) to 255 (on)
+int CD = 0; // Coil duty cycle as a percent
+int PD = 0; // Pump duty cycle as a percent
 unsigned int elapsedTime = 0;
 
 int state = 0; // Which state the controller is currently in

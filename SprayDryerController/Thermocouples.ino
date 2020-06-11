@@ -48,6 +48,7 @@ void readCoilT() {
   }
   if (coilT >= maxCoilT) {
     alarmActive = true;
+    coilAlarm = true; // This alarm should shut off the heating coil until cleared
     writeAlarm("   Max Coil Temp    ");
   }
 }

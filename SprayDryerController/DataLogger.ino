@@ -27,14 +27,16 @@ void startLog() {
     logFile.close();
   }
   currentTime = rtc.now();
-  String filename = "" + currentTime.year() + '.' + currentTime.month() + '.' + currentTime.day() + '.' + currentTime.hour() + '.' + currentTime.minute() + '.' + currentTime.second();
-  logFile = SD.open(filename + ".log", FILE_WRITE);
+  // TODO: ensure that the filename is only 8 characters long
+  String startingTimestamp = "" + currentTime.year() + '.' + currentTime.month() + '.' + currentTime.day() + '.' + currentTime.hour() + '.' + currentTime.minute() + '.' + currentTime.second();
+  logFile = SD.open(startingTimestamp + ".log", FILE_WRITE);
   if (logFile) {
-    logFile.println("Process Started At:" + filename);
+    logFile.println("Process Started At:" + startingTimestamp);
     logFile.print("Timestamp\tInput T\tInput Setpoint\tCoil Dutycycle\tOutput T\tOutput Setpoint\tPump Dutycycle\tElapsed Time");
     writeLog();
   } else {
-    // handle error of log file not opening properly
+    alarmActive = true;
+    writeAlarm("    Data Logger     ");
   }
 }
 
@@ -43,7 +45,8 @@ void endLog() {
     logFile.println("log closed normally");
     logFile.close();
   } else {
-    // handle error of log file not opening properly
+    alarmActive = true;
+    writeAlarm("    Data Logger     ");
   }
 }
 
@@ -59,7 +62,7 @@ void writeLog() {
       logFile.print(inputSetpoint);
     }
     logFile.print("\t");
-    logFile.print(coilDutyCycle);
+    logFile.print(CD);
     logFile.print("\t");
     logFile.print(outputT);
     if (manualPumpPressed){
@@ -69,12 +72,13 @@ void writeLog() {
       logFile.print(outputSetpoint);
     }
     logFile.print("\t");
-    logFile.print(pumpDutyCycle);
+    logFile.print(PD);
     logFile.print("\t");
     logFile.println(elapsedTime);
     lastLog = millis();
   } else {
-    // handle error of log file not opening properly
+    alarmActive = true;
+    writeAlarm("    Data Logger     ");
   }
 }
 

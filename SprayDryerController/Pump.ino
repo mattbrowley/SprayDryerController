@@ -1,4 +1,4 @@
-#define pumpP -0.1
+#define pumpP -0.1  // Note that these are negative because the pump PID controller should operate in reverse mode
 #define pumpI -0.0003
 #define pumpD -0.0001
 
@@ -17,10 +17,10 @@ void manualSetPump() {
 void PIDSetPump() {
   if (!pumpAlarm) { // keep the pump turned off if there is an active pump alarm
     pumpPID.run();
+    analogWrite(pumpRelay, pumpDutyCycle);
   } else {
     killPump();
   }
-
 }
 
 void killPump() {

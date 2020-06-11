@@ -61,6 +61,7 @@ void updateState() {
       logData();
       if (inputT - outputT < 10) { // End the process
         endLog();
+        timerStart = 0;  // Reset the manual timer
         if (!alarmActive) {
           clearLCD();
         }
@@ -71,12 +72,16 @@ void updateState() {
   }
 }
 
-void checkAlarms() {
+void updateBuzzer() {
   if (alarmActive) {
     //TODO: Code to check for alarms and sound the buzzer
   }
 }
 
 void updateTimer() {
-  elapsedTime = (millis() - timerStart) / 1000;
+  if (timerStart == 0){
+    elapsedTime = 0;
+  } else{ // Only give nonzero times if the timer has been manually started
+    elapsedTime = (millis() - timerStart) / 1000;
+  }
 }

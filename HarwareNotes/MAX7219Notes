@@ -8,4 +8,4 @@ Note that the MAX7219 should be powered directly from the 5V power supply, and n
 
 The two drivers share CS SCK pins, but the DIn pin for the second display should be connected to the DOut pin of the first, rather than to the MISO pin on the SPI bus
 
-The 7219 is technically not SPI-compliant (7221 is), but apparently the SPI library works well enough with it.
+The 7219 is technically not SPI-compliant (7221 is), but apparently the LED_Control library works well enough with it.
