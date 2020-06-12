@@ -16,9 +16,10 @@ void loop() {
   updateState();
   updateBuzzer();
   updateTimer();
+  updateLEDs();
 }
 
-void setupPins(){
+void setupPins() {
   pinMode(timerPin, INPUT_PULLUP);
   pinMode(alarmClearPin, INPUT_PULLUP);
   pinMode(startPin, INPUT_PULLUP);
@@ -26,10 +27,16 @@ void setupPins(){
   pinMode(idlePin, INPUT_PULLUP);
   pinMode(manualHeatPin, INPUT_PULLUP);
   pinMode(manualPumpPin, INPUT_PULLUP);
-  pinMode(SSPin, OUTPUT);
   pinMode(pumpRelay, OUTPUT);
   pinMode(coilRelay, OUTPUT);
-  pinMode(alarmBuzzerPin, OUTPUT);
+  pinMode(buzzerPin, OUTPUT);
   pinMode(alarmLEDPin, OUTPUT);
+  pinMode(timerLEDPin, OUTPUT);
+  pinMode(warmupLEDPin, OUTPUT);
+  pinMode(runningLEDPin, OUTPUT);
+  pinMode(cooldownLEDPin, OUTPUT);
+  pinMode(manualHeatLED, OUTPUT);
+  pinMode(manualPumpLED, OUTPUT);
+  pinMode(idleLED, OUTPUT);
   lastPress = millis();
 }

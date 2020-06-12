@@ -1,0 +1,8 @@
+Chip					Protocol		Voltage
+---------------------	--------------	-----------------------------------
+MAX31855 Thermocouple	SPI				3.3V (??Tolerates 3.3V inputs??)
+MAX7219 LED Driver		SPI(ish)		5V
+DS1307 RTC				I2C				3.3V (5V with onboard level-shifter)
+SD card					SPI				3.3V (5V with onboard level-shifter)
+20x4 LCD Display		I2C				5V (tolerates 3.3V inputs)
+

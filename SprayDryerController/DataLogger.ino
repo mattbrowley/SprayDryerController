@@ -29,7 +29,8 @@ void startLog() {
   currentTime = rtc.now();
   // TODO: ensure that the filename is only 8 characters long
   String startingTimestamp = "" + currentTime.year() + '.' + currentTime.month() + '.' + currentTime.day() + '.' + currentTime.hour() + '.' + currentTime.minute() + '.' + currentTime.second();
-  logFile = SD.open(startingTimestamp + ".log", FILE_WRITE);
+  String filename = "" + currentTime.month() + currentTime.day() + currentTime.hour() + currentTime.minute();
+  logFile = SD.open(filename + ".log", FILE_WRITE); // Strange error if I try to include ".log" in the filename above
   if (logFile) {
     logFile.println("Process Started At:" + startingTimestamp);
     logFile.print("Timestamp\tInput T\tInput Setpoint\tCoil Dutycycle\tOutput T\tOutput Setpoint\tPump Dutycycle\tElapsed Time");
@@ -48,6 +49,7 @@ void endLog() {
     alarmActive = true;
     writeAlarm("    Data Logger     ");
   }
+  loggingActive = false;
 }
 
 void writeLog() {
@@ -65,9 +67,9 @@ void writeLog() {
     logFile.print(CD);
     logFile.print("\t");
     logFile.print(outputT);
-    if (manualPumpPressed){
+    if (manualPumpPressed) {
       logFile.print("\tManual");
-    }else{
+    } else {
       logFile.print("\t");
       logFile.print(outputSetpoint);
     }
@@ -82,8 +84,8 @@ void writeLog() {
   }
 }
 
-void logData(){
-  if(millis()-lastLog >= logInterval){  // Only write a log when the interval has passed
+void logData() {
+  if (millis() - lastLog >= logInterval) { // Only write a log when the interval has passed
     writeLog();
   }
 }

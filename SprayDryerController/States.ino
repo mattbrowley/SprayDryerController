@@ -21,7 +21,9 @@ void updateState() {
       } else {
         PIDSetCoil();
       }
-      if (inputT < inputSetpoint + 1 & inputT > inputSetpoint - 1) {
+      if (inputT < inputSetpoint + 1 & inputT > inputSetpoint - 1) { // Input temp has reached setpoint +/- 1
+        buzzesRemaining = 4; // Three chirps to indicate end of warmup stage
+        outputTReached = false;
         state = 4;
       }
       writeLogo();
@@ -42,6 +44,20 @@ void updateState() {
           PIDSetPump();
         }
       }
+      if (inputT > inputSetpoint + 10 | inputT < inputSetpoint - 10) { // Input temp has strayed too far
+        alarmActive = true;
+        writeAlarm("Input T Out Of Range");
+      }
+      if (outputTReached) {
+        if (outputT > outputSetpoint + 10 | outputT < outputSetpoint - 10) { // Output temp has strayed too far
+          alarmActive = true;
+          writeAlarm("Output T Out Of Range");
+        }
+      } else {
+        if (inputT < inputSetpoint + 1 & inputT > inputSetpoint - 1) { // Output temp has reached setpoint
+          outputTReached = true;
+        }
+      }
       writeLogo();
       writeTemps();
       writeTimer();
@@ -60,12 +76,13 @@ void updateState() {
       writeTimer();
       logData();
       if (inputT - outputT < 10) { // End the process
+        killCoil();
+        killPump();
         endLog();
-        timerStart = 0;  // Reset the manual timer
+        buzzesRemaining = 6;  // 5 chirps to indicate the end of the cooldown phase
         if (!alarmActive) {
           clearLCD();
         }
-        //TODO: Some friendly finished alarm
         state = 0;
       }
       break;
@@ -73,15 +90,78 @@ void updateState() {
 }
 
 void updateBuzzer() {
+  if (buzzesRemaining > 0) {
+    if (buzzerActive) {
+      if (millis() % 1000 >= 500) {
+        digitalWrite(buzzerPin, HIGH);
+      } else {
+        digitalWrite(buzzerPin, LOW);
+      }
+    } else {
+      if (millis() % 1000 < 500) { // This is a bit convoluted, but it ensures an indicator buzz lasts 1/2 second
+        buzzerActive = true;
+        buzzesRemaining = buzzesRemaining - 1; // You will need to set buzzesRemaining to 1 more than the number of buzzes you actually want
+      }
+    }
+  } else {
+    buzzerActive = false;
+  }
   if (alarmActive) {
-    //TODO: Code to check for alarms and sound the buzzer
+    digitalWrite(buzzerPin, HIGH);
+  } else if (!buzzerActive) {
+    digitalWrite(buzzerPin, LOW);
   }
 }
 
 void updateTimer() {
-  if (timerStart == 0){
-    elapsedTime = 0;
-  } else{ // Only give nonzero times if the timer has been manually started
+  if (timerActive) { // Only give nonzero times if the timer has been manually started
     elapsedTime = (millis() - timerStart) / 1000;
+  } else {
+    elapsedTime = 0;
+  }
+}
+
+void updateLEDs() {
+  if (alarmActive) {
+    digitalWrite(alarmLEDPin, HIGH);
+  } else {
+    digitalWrite(alarmLEDPin, LOW);
+  }
+  if (timerActive & millis() % 1000 > 500) { // Slowly blinking light while timer is counting
+    digitalWrite(timerLEDPin, HIGH);
+  } else {
+    digitalWrite(timerLEDPin, LOW);
+  }
+  if (manualHeatPressed) {
+    digitalWrite(manualHeatLED, HIGH);
+  } else {
+    digitalWrite(manualHeatLED, LOW);
+  }
+  if (manualPumpPressed) {
+    digitalWrite(manualPumpLED, HIGH);
+  } else {
+    digitalWrite(manualPumpLED, LOW);
+  }
+  if (idlePressed){
+    digitalWrite(idleLED, HIGH);
+  } else {
+    digitalWrite(idleLED, LOW);
+  }
+  if (state == 3) {
+    digitalWrite(warmupLEDPin, HIGH);
+    digitalWrite(runningLEDPin, LOW);
+    digitalWrite(cooldownLEDPin, LOW);
+  } else if (state == 4) {
+    digitalWrite(warmupLEDPin, LOW);
+    digitalWrite(runningLEDPin, HIGH);
+    digitalWrite(cooldownLEDPin, LOW);
+  } else if (state == 5) {
+    digitalWrite(warmupLEDPin, LOW);
+    digitalWrite(runningLEDPin, LOW);
+    digitalWrite(cooldownLEDPin, HIGH);
+  } else {
+    digitalWrite(warmupLEDPin, LOW);
+    digitalWrite(runningLEDPin, LOW);
+    digitalWrite(cooldownLEDPin, LOW);
   }
 }

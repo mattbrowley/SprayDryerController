@@ -24,7 +24,7 @@ void PIDSetPump() {
 }
 
 void killPump() {
-  analogWrite(pumpRelay, 0);
+  digitalWrite(pumpRelay, LOW);
 }
 
 void resetPumpPID() {
